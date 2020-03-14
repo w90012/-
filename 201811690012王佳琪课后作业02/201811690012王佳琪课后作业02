@@ -3,10 +3,10 @@
 正向工程：把模型转化为代码。概念数据模型（CDM）生成物理数据模型（PDM）生成数据库
 逆向工程：反之，把代码转化为模型。
 2.
-聚集： https://github.com/w90012/Database-Principles/raw/master/201811690012王佳琪课后作业02/pics/聚集.png
+聚集： https://github.com/w90012/Database-Principles/raw/master/201811690012王佳琪课后作业02/pics/聚集.png 
 细化：图书可分为历史类、小说类等；小说类又可以有科幻小说，爱情小说，历史小说等
 泛化：爱情小说，历史小说，科幻小说都是小说；小说，教课书，散文集都是图书
-弱实体： https://github.com/w90012/Database-Principles/raw/master/201811690012王佳琪课后作业02/pics/弱实体.jpg
+弱实体：https://github.com/w90012/Database-Principles/raw/master/201811690012王佳琪课后作业02/pics/弱实体.jpg
 3.https://github.com/w90012/Database-Principles/raw/master/201811690012王佳琪课后作业02/pics/作业1.3ER图.jpg
 作业二
 https://github.com/w90012/Database-Principles/raw/master/201811690012王佳琪课后作业02/pics/课后作业2.jpg
