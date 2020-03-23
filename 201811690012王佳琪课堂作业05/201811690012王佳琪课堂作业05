@@ -1,0 +1,47 @@
+mysql> select * from student;
++-----+--------+------+-----------+-------+
+| sno | sname  | ssex | sbirthday | class |
++-----+--------+------+-----------+-------+
+| 101 | 李军   | 男   |      1976 | 95033 |
+| 103 | 陆君   | 男   |      1974 | 95031 |
+| 104 | 尚文   | 男   |      1978 | 95033 |
+| 105 | 框明   | 男   |      1975 | 95031 |
+| 107 | 王丽   | 女   |      1976 | 95033 |
+| 108 | 曾华   | 男   |      1977 | 95033 |
+| 109 | 王芳   | 女   |      1977 | 95031 |
++-----+--------+------+-----------+-------+
+7 rows in set (0.00 sec)
+
+select sno, sname from student order by sno;
++-----+--------+
+| sno | sname  |
++-----+--------+
+| 101 | 李军   |
+| 103 | 陆君   |
+| 104 | 尚文   |
+| 105 | 框明   |
+| 107 | 王丽   |
+| 108 | 曾华   |
+| 109 | 王芳   |
++-----+--------+
+7 rows in set (0.00 sec)
+
+select * from `student` where sname like '%丽';
++-----+--------+------+-----------+-------+
+| sno | sname  | ssex | sbirthday | class |
++-----+--------+------+-----------+-------+
+| 107 | 王丽   | 女   |      1976 | 95033 |
++-----+--------+------+-----------+-------+
+1 row in set (0.02 sec)
+
+alter table student add fulltext index idx_full_sno(sname);
+select sname from student where sname like '%王%';
++--------+
+| sname  |
++--------+
+| 王丽   |
+| 王芳   |
++--------+
+2 rows in set (0.00 sec)
+
+select * from `student` where sname like '%丽';
