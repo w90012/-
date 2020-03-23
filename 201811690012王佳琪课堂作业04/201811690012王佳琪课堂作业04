@@ -1,0 +1,23 @@
+CREATE TABLE `student` (
+    `st_id` int(10) NOT null,
+     `st_name` varchar(50) NOT NULL,
+      PRIMARY KEY (`st_id`)
+      );
+ALTER TABLE student ADD INDEX st_index(st_id,st_name);
+CREATE TABLE `teacher` (
+    `tc_id` int(10) NOT null,
+     `tc_name` varchar(50) NOT NULL,
+     `title` varchar(50) not null,
+      PRIMARY KEY (`tc_id`)
+      );
+ALTER TABLE student ADD INDEX tc_index(tc_id,tc_name);
+CREATE TABLE `project` (
+    `pj_id` int(10) NOT null,
+     `pj_name` varchar(200) NOT NULL,
+     `mentor_id` int(10) not null,
+     `tutee`  int(10) not null,
+      PRIMARY KEY (`pj_id`)
+      );
+ALTER TABLE student ADD INDEX pj_index(pj_id,pj_name);
+alter table project add foreign key (tutee)  references student(st_id) ;
+alter table project add foreign key (mentor_id)  references teacher(tc_id) ;
