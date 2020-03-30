@@ -1,0 +1,17 @@
+常见编译型高级编程语言数据库接口：
+C、C++、Objective等都属于编译型语言
+DAO RDO OLEDB
+常见解释型高级编程语言数据库接口：
+Java、JavaScript、VBScript、Perl、Python、Ruby、MATLAB 等等等属于解释型语言
+JDBC 
+Python编程语言连接数据库的不同方式比较
+1.用mysql-python
+MySQL-python 又叫 MySQLdb，是 Python 连接 MySQL 最流行的一个驱动，很多框架都也是基于此库进行开发，遗憾的是它只支持 Python2.x，而且安装的时候有很多前置条件，因为它是基于C开发的库，在 Windows 平台安装非常不友好，经常出现失败的情况。
+2、mysqlclient
+由于 MySQL-python 年久失修，后来出现了它的 Fork 版本 mysqlclient，完全兼容 MySQLdb，同时支持 Python3.x，是 Django ORM的依赖工具，如果你想使用原生 SQL 来操作数据库，那么推荐此驱动。
+3、PyMySQL
+PyMySQL 是纯 Python 实现的驱动，速度上比不上 MySQLdb，最大的特点可能就是它的安装方式没那么繁琐，同时也兼容 MySQL-python。
+4、peewee
+写原生 SQL 的过程非常繁琐，代码重复，没有面向对象思维，继而诞生了很多封装 wrapper 包和 ORM 框架，ORM 是 Python 对象与数据库关系表的一种映射关系，有了 ORM 你不再需要写 SQL 语句。提高了写代码的速度，同时兼容多种数据库系统，如sqlite, mysql、postgresql，付出的代价可能就是性能上的一些损失。如果你对 Django 自带的 ORM 熟悉的话，那么 peewee的学习成本几乎为零。它是 Python 中是最流行的 ORM 框架。
+5、SQLAlchemy
+如果想找一种既支持原生 SQL，又支持 ORM 的工具，那么 SQLAlchemy 是最好的选择，它非常接近 Java 中的 Hibernate 框架。
