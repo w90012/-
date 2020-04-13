@@ -1,0 +1,27 @@
+1. 测试使用用户权限控制的语句(建议使用命令行)
+create databse demo_db;
+use demo_db;
+create user 'demo_user'@'%' identified by '123456';   /*创建用户*/
+GRANT EXECUTE,INSERT,SELECT,UPDATE ON demo_db.* TO 'demo_user'@'%';/*分配select，insert权限*/
+REVOKE INSERT ON demo_db from demo_user;
+
+测试结果：
++-------------------------------------------------------------------------+
+| Grants for demo_user@%                                                  |
++-------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `demo_user`@`%`                                   |
+| GRANT SELECT, INSERT, UPDATE, EXECUTE ON `demo_db`.* TO `demo_user`@`%` |
++-------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+2. 检索MySQL批处理相关功能并实验
+delimiter //
+CREATE PROCEDURE sp_inout(INOUT p_num INT) 
+BEGIN
+SET p_num=p_num*10; 
+END //
+
+delimiter ;
+//调用并输出结果 
+SET @p_num=2; 
+call sp_inout(@p_num); 
+SELECT @p_num; 
