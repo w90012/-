@@ -1,0 +1,77 @@
+练习存储过程、函数与触发器的定义与调用；
++----------+-------+--------+
+| sname    | syear | sgrade |
++----------+-------+--------+
+| Lihua    |     1 |      1 |
+| Zhangsan |     1 |      2 |
+| Wangwu   |     3 |      3 |
+| Zhaoliu  |     4 |      4 |
++----------+-------+--------+
+/*存储过程*/
+delimiter //
+create procedure w_show()
+begin
+select* from student;
+end//
+
+call w_show();
+
+运行结果：
++----------+-------+--------+
+| sname    | syear | sgrade |
++----------+-------+--------+
+| Lihua    |     1 |      1 |
+| Zhangsan |     1 |      2 |
+| Wangwu   |     3 |      3 |
+| Zhaoliu  |     4 |      4 |
++----------+-------+--------+
+
+/*函数*/
+set global log_bin_trust_function_creators=TRUE;
+delimiter //
+create function r_name()
+returns varchar(20)
+return (select sname from student where sgrade = 2);
+//
+select r_name();
+
+运行结果：
++----------+
+| r_name() |
++----------+
+| Zhangsan |
++----------+
+
+/*触发器*/
+create trigger tg1
+after
+insert
+on student
+for each row
+begin
+	update student set syear = new.syear+1 where sgrade = new.sgrade;
+end//
+
+select* from student;
+
+update student set syear = syear+1 where sgrade = 2;
+
+运行结果：Rows matched: 1  Changed: 1  Warnings: 0
+
+select * from student;
+
+运行结果：
++----------+-------+--------+
+| sname    | syear | sgrade |
++----------+-------+--------+
+| Lihua    |     1 |      1 |
+| Zhangsan |     2 |      2 |
+| Wangwu   |     3 |      3 |
+| Zhaoliu  |     4 |      4 |
++----------+-------+--------+
+4 rows in set (0.00 sec)
+
+存储过程、函数与触发器在真实业务系统中都适用于具体哪些场景，用自己的话说明一下原因：
+存储过程可以对多个sql语句进行组合，一经创建可以反复调用，因此当需要多次使用同一组比较复杂的sql时，可以使用存储过程。
+函数可以有返回值，而且可以直接在查询时调用，因此当功能需要在查询中使用时，就使用函数来完成。
+某个条件成立的时候,触发器里面所定义的语句就会被自动的执行，因此在需要自用调用功能（比如数据的自动备份）时，需要用到触发器。
