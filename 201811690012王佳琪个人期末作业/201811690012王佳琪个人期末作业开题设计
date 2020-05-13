@@ -1,0 +1,59 @@
+所选题目：基于MySQL全文索引构建简单的中文"搜索引擎"
+MySQL中有三种类型的全文检索：
+1. 自然语言搜索
+通过MATCH AGAINST 传递某个特定的字符串来进行检索。不能使用运算符。
+2. 布尔搜索
+为检索的字符串增加操作符
+3. 查询扩展搜索
+搜索字符串执行自然语言搜索，搜索返回的最相关行的单词被添加到搜索字符串，然后进行第二次搜索
+
+简单中文搜索引擎要素：
+1.创建全文索引(FullText index)：
+CREATE TABLE articles ( 
+              id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY, 
+              title VARCHAR(200), 
+              body TEXT, 
+              FULLTEXT (title,body) WITH PARSER ngram 
+          ) ENGINE=InnoDB CHARACTER SET utf8mb4;
+但是在这个阶段无法通过单个字进行搜索，只能通过标点符号分词。
+
+2.中文分词：
+MySQL内置了ngram全文解析器，用来支持中文、日文、韩文分词。
+mysql--ngram_token_size=2
+MySQL 中使用全局变量ngram_token_size来配置ngram中n的大小，通常ngram_token_size设置为要查询的单词的最小字数。如果需要搜索单字，就要把ngram_token_size设置为1。
+为便于锁定诗句，比对结果，在此设置最短字段为2：
+SELECT * FROM articles WHERE MATCH (title,body) AGAINST ('玉盘' IN BOOLEAN MODE);
++----+--------------+--------------------------+
+| id | title        | body                     |
++----+--------------+--------------------------+
+| 59 | 飞花令（月） | 小时不识月，呼作白玉盘。 |
++----+--------------+--------------------------+
+1 row in set (0.00 sec)
+
+BOOLEAN模式下运算符的使用：
+/*包含“月”字的诗句*/
+mysql> SELECT * FROM articles WHERE MATCH (title,body) AGAINST ('*月*' IN BOOLEAN MODE);
++----+---------------+-------------------------------------+
+| id | title         | body                                |
++----+---------------+-------------------------------------+
+|  2 | 飞花令（江）  | 月落乌啼霜满天，江枫渔火对愁眠。    |
+|  8 | 飞花令（江）  | 野旷天低树，江清月近人。            |
+| 12 | 飞花令（楼）  | 小楼昨夜又东风,故国不堪回首月明中。 |
+| 15 | 飞花令（楼）  | 故人西辞黄鹤楼,烟花三月下扬州。     |
+| 39 | 飞花令（心）  | 我寄愁心与明月，随风直到夜郎西。    |
+| 42 | 飞花令（雪）  | 大漠沙如雪,燕山月似钩。             |
+| 56 | 飞花令（月）  | 明月几时有，把酒问青天。            |
+| 57 | 飞花令（月）  | 月下飞天镜，云生结海楼。            |
+| 58 | 飞花令（月）  | 春宵一刻值千金，花有清香月有阴。  |
+| 59 | 飞花令（月）  | 小时不识月，呼作白玉盘。            |
+| 60 | 飞花令（月）  | 我本将心向明月，奈何明月照沟渠。    |
++----+---------------+-------------------------------------+
+11 rows in set (0.00 sec)
+
+mysql> select count(*) from articles where match(title,body)  against('*月*'IN BOOLEAN MODE);
++----------+
+| count(*) |
++----------+
+|       11 |
++----------+
+1 row in set (0.00 sec)
