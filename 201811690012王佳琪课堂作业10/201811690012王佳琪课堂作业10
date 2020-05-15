@@ -1,0 +1,33 @@
+1. 试描述PHP程序的运行流程
+PHP是用于服务器端的编程语言，其代码在服务器端被执行。
+用户访问一个包含PHP代码的网页时，发送Request到服务器，其中包含网页的文件名。
+服务器收到Request后，找到文件名指向的文件，发现其中嵌有PHP代码，会调用PHP解释器处理该文件，然后将处理后的结果整理到Response，发送到客户端。
+PHP代码可以与服务器端的数据库或其他资源进行交互，或者根据用户的操作产生不同的页面。
+
+2. 目前常用的服务器软件有哪些
+(1)Apache
+世界使用排名第一的Web服务器软件。可以运行在几乎所有广泛使用的计算机平台上。Apache简单、速度快、性能稳定，并可做代理服务器来使用。
+擅长处理php页面，如果需要执行php的内容过多可以采用apache，如果静态内容多可以用nginx。
+(2)IIS
+IIS是英文Internet Information Server的缩写，是微软公司主推的服务器。由于IIS与Window Server完全集成在一起，用户能够利用Windows Server和NTFS（NT File System，NT的文件系统）内置的安全特性，建立强大，灵活而安全的Internet和Intranet站点。
+服务器版本IIS默认版本server20036.0server20087.0server2008 r27.5server20128.0server201610windows服务器的首选，稳定性好。网站需要支持asp、asp.net的就需要用iis了
+(3)GFE
+Google的web服务器。
+(4)Nginx
+Nginx不仅是一个小巧且高效的HTTP服务器，也可以做一个高效的负载均衡反向代理，通过它接受用户的请求并分发到多个Mongrel进程可以极大提高Rails应用的并发能力。
+(5)Lighttpd
+Lighttpd是基于BSD许可的开源WEB服务器软件，其根本的目的是提供一个专门针对高性能网站，安全、快速、兼容性好并且灵活的web server环境。具有非常低的内存开销，CPU占用率低，效能好，以及丰富的模块等特点。Lighttpd 是众多OpenSource轻量级的web server中较为优秀的一个。支持FastCGI, CGI, Auth, 输出压缩（output compress），URL重写，Alias等重要功能。
+
+3. 如何将PHP与Apache建立关联
+(1)安装好的Apache和PHP
+(2)Apache配置：打开Conf/httpd.conf，找到 ServerRoot 将其指向apache的路径
+(3)找到ServerAdmin 改为 localhost，若访问localhost 成功即证明已经安装成功
+(4)文件尾部加入
+LoadModule php5_module "C:\Php\php5.6\php5apache2_4.dll(PHP 文件所在路径)"
+AddType application/x-httpd-php .php .html .htm
+PHPIniDir "C:\Php\php5.6"
+(5)Apache\htdocs中创建网页，启动apache访问，如果能够显示则安装成功
+
+4. 主目录下面的子目录和虚拟目录有何不同？
+子目录就是文件储存到电脑硬盘上的目录
+虚拟目录是为服务器硬盘上不在主目源录下的一个物理目录或者其他计算机上的主目录而指定的别名。因为别名通常比物理目录的路径短，所以它更便于用户输入。同时，使用别名还更加安全，因为用户不知道文件在服务器上的物理位置，所以无法使用该信息百来修改文件。通过使用别名，还可以更轻松地移动站点中度的目录。无需更改目录的 URL，而只需更改别名与目录物理位置之间的映射。
