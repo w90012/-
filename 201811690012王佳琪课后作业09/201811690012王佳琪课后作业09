@@ -1,0 +1,80 @@
+【一】完成Apache/Nginx + MySQL + PHP基础开发环境的准备工作
+1. 安装phpwamp，启动Apache，启动MySQL
+2. 浏览器输入http://localhost:3301/
+3. 网页可以正常显示，证明连接成功。
+【二】
+完成PHP调试工具的安装、配置和使用，复习并练习使用编程语言访问数据库，并将运行结果在网页中展现出来
+<?php
+	$dbhost = 'localhost';
+	$dbuser = 'root';
+	$dbpass = 'pass';
+	$conn = mysqli_connect($dbhost,$dbuser,$dbpass);
+	mysqli_query($conn,"set names utf8"); 
+	mysqli_select_db($conn,"self_project"); //连接数据库 
+	$sql = "SELECT * FROM articles WHERE MATCH (title,body) AGAINST ('*月*' IN BOOLEAN MODE);";
+	$result = mysqli_query($conn,$sql);
+		
+	echo "<table class='table table-bordered table-striped'>
+		<thead>
+		<td width='40%'>title</td>
+		<td width='50%'>body</td>
+		</thead>";
+					
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		{
+			echo "<tr>
+			<td>{$row["title"]}</td>
+			<td>{$row["body"]}</td>
+			</tr>";
+			} 
+		
+	echo "</table>";
+	mysqli_close($conn);
+
+?>		
+
+【三】
+安装、调试并使用PHP/Python 的一种ORM框架的使用，并编写自己的测试案例与代码。
+
+from sqlalchemy import create_engine
+
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime, Boolean
+
+# 连接数据库
+engine = create_engine('mysql8://root:pass@localhost:3301/school?charset=utf8')
+
+Base = declarative_base()
+
+
+class Student(Base):  # 继承基类
+    __tablename__ = 'Student'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(20), nullable=False)
+    sex = Column(String(1))
+
+    def __init__(self, name, sex):
+        self.name = name
+        self.sex = sex
+
+
+Base.metadata.create_all(engine)
+
+
+from sqlalchemy.orm import sessionmaker
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
+
+add_user = Student("Li", "男")
+session.add(add_user)
+session.commit()
+
+add_user = Student("Chen", "女")
+session.add(add_user)
+session.commit()
+
+student = session.query(Student).filter_by(id=1).all()
+for item in student:
+    print(item.name)
