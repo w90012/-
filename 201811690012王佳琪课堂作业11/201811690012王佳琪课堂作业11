@@ -1,0 +1,13 @@
+Apache基础配置
+配置位置：
+C:\PHPWAMP_IN3\phpwamp\server\Apache2.2\conf\httpd-phpwamp.conf
+端口号：
+Listen 8080
+文档根目录 ：
+#DocumentRoot "C:/Program Files/Apache Software Foundation/Apache2.2/htdocs"
+相对路径别名alias：
+ScriptAlias /cgi-bin/ "C:/Program Files/Apache Software Foundation/Apache2.2/cgi-bin/"
+vhost配置：
+# Virtual hosts
+#Include conf/extra/httpd-vhosts.conf
+C:\PHPWAMP_IN3\phpwamp\server\Apache2.2\conf\httpd-vhosts.conf
