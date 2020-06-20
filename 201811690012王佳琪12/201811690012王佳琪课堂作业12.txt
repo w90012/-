@@ -1,0 +1,69 @@
+PHP中提供了哪些内置数组，各代表什么意思？
+$_GET 经由URL请求提交至脚本的变量。
+$_POST 经由HTTP POST方法提交至脚本的变量。
+$_SERVER 变量由web服务器设定或者直接与当前脚本的执行环境相关联。
+$_SESSION 当前注册给脚本会话的变量。
+$_COOKIE 经由HTTP Cookies 方法提交至脚本的变量。
+$_FILES 经由HTTP POST 文件上传而提交至脚本的变量。
+$_ENV 执行环境提交至脚本的变量。
+$_REQUEST 经由GET，POST 和 COOKIE机制提交至脚本的变量。
+$GLOBALS 包含一个引用指向每个当前脚本的全局范围内有效的变量。该数组的键名为全局变量的名称。
+
+PHP中实现网页间数据传递，可以使用哪几种方法？
+一. POST传值
+ <html>
+ <form action='' method=''>
+ <input type='text' name='name1'>
+ <input type='hidden' name='name2' value='value'>
+ <input type='submit' value='提交'>
+ </form>
+ </html>
+form中的action填入的是跳转页面的url路径,method填入post方法。form表单中的提交按钮按下后，就会把form中有name的内容都传到填入的url中，可以通过$_POST['name']获取，例如:
+<?php
+$a=$_POST['name1'];
+$b=$_POST['name2'];
+?>
+
+二.GET传值
+<a href='delete.php?id=value'>点我跳转</a>
+   跳转进入xxx.php后，就能通过$_GET['id']获取传递的值。GET方法常用于URL的目的是删除或读取某个id的php文件。
+
+三.SESSION传值
+<?php
+//session赋值
+   session_start();
+   $_SESSION['one']=value1;
+   $_SESSION['two']=value2;
+ 
+//session值的读取:
+   $one = $_SESSION['one'];
+    
+   //session值的销毁
+   unset($_SESSION['one']);
+?>
+
+PHP中Cookie和Session都可以实现用户登陆，他们有什么区别？自己编码实验
+Session是将Session的信息保存在服务器上，并通过一个Sessionid来传递客户的信息，同时服务器接收到Sessionid后，根据这个ID来提供相关的Session资源；cookie是将所有的信息以文本文件的形式保存在客户端，并由浏览器进行管理和维护。
+由于session为服务器存储，所以远程用户无法修改session文件的内容。而cookie为客户端存储，所以session要比cookie安全得多。
+
+PHP中我们可以通过内置数组获取哪些服务器信息，如何获取？自己编码实验
+获取系统类型及版本号：    php_uname()     (例：Windows NT )
+只获取系统类型：          php_uname('s')       (或：PHP_OS，例：Windows NT)
+只获取系统版本号：        php_uname('r')       
+获取PHP运行方式：      php_sapi_name()       (PHP run mode：apache2handler)
+获取前进程用户名：        Get_Current_User()
+获取PHP版本：          PHP_VERSION
+获取Zend版本：          Zend_Version()
+获取PHP安装路径：      DEFAULT_INCLUDE_PATH
+获取当前文件绝对路径：    __FILE__
+获取Http请求中Host值：    $_SERVER["HTTP_HOST"]          (返回值为域名或IP)
+获取服务器IP：            GetHostByName($_SERVER['SERVER_NAME'])
+接受请求的服务器IP：      $_SERVER["SERVER_ADDR"]   
+获取客户端IP：            $_SERVER['REMOTE_ADDR']
+获取服务器解译引擎：      $_SERVER['SERVER_SOFTWARE']
+获取服务器CPU数量：      $_SERVER['PROCESSOR_IDENTIFIER']
+获取服务器系统目录：$_SERVER['SystemRoot']
+获取服务器域名： $_SERVER['SERVER_NAME']  
+获取用户域名：            $_SERVER['USERDOMAIN']
+获取服务器语言：          $_SERVER['HTTP_ACCEPT_LANGUAGE']
+获取服务器Web端口：      $_SERVER['SERVER_PORT']
