@@ -1,0 +1,2 @@
+将课件中Easiest PHPCMS所有前后端功能从admin页面分离成独立页面
+学习并练习一种PHP ORM方法、框架的使用
